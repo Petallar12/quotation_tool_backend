@@ -36,57 +36,43 @@ app.post("/send-email", async (req, res) => {
     const { contactInfo, plans, totalPremium } = req.body;
   
     try {
-        const emailContent = `
-          <h1>Contact Information</h1>
-          <p><strong>Full Name:</strong> ${contactInfo.fullName}</p>
-          <p><strong>Contact Number:</strong> ${contactInfo.contactNumber}</p>
-          <p><strong>Email Address:</strong> ${contactInfo.emailAddress}</p>
-          <hr>
-          <h1>Plans and Premiums</h1>
-          <table border="1" cellpadding="10">
-            <thead>
-              <tr>
-                <th>Client</th>
-                <th>Hospital & Surgery</th>
-                <th>Outpatient</th>
-                <th>Maternity</th>
-                <th>Dental</th>
-                <th>Subtotal</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${plans
-                .map(
-                  (plan) => `
-                  <tr>
-                    <td>${plan.client}</td>
-                    <td>
-                      <strong>Plan:</strong> ${plan.hospitalSurgery.plan || "N/A"}<br>
-                      <strong>Deductible:</strong> ${plan.hospitalSurgery.deductible || "N/A"}<br>
-                      <strong>Premium:</strong> ${plan.hospitalSurgery.premium || "N/A"}
-                    </td>
-                    <td>
-                      <strong>Plan:</strong> ${plan.outpatient.plan || "N/A"}<br>
-                      <strong>Co-insurance:</strong> ${plan.outpatient.co_ins || "N/A"}<br>
-                      <strong>Premium:</strong> ${plan.outpatient.premium || "N/A"}
-                    </td>
-                    <td>
-                      <strong>Plan:</strong> ${plan.maternity.plan || "N/A"}<br>
-                      <strong>Premium:</strong> ${plan.maternity.premium || "N/A"}
-                    </td>
-                    <td>
-                      <strong>Plan:</strong> ${plan.dental.plan || "N/A"}<br>
-                      <strong>Premium:</strong> ${plan.dental.premium || "N/A"}
-                    </td>
-                    <td><strong>${plan.subtotal}</strong></td>
-                  </tr>
-                `
-                )
-                .join("")}
-            </tbody>
-          </table>
-          <h2>Total Premium: USD ${totalPremium}</h2>
-        `;
+      const emailContent = `
+        <h1>Contact Information</h1>
+        <p><strong>Full Name:</strong> ${contactInfo.fullName}</p>
+        <p><strong>Contact Number:</strong> ${contactInfo.contactNumber}</p>
+        <p><strong>Email Address:</strong> ${contactInfo.emailAddress}</p>
+        <hr>
+        <h1>Plans and Premiums</h1>
+        <table border="1" cellpadding="10">
+          <thead>
+            <tr>
+              <th>Client</th>
+              <th>Hospital & Surgery</th>
+              <th>Outpatient</th>
+              <th>Maternity</th>
+              <th>Dental</th>
+              <th>Subtotal</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${plans
+              .map(
+                (plan) => `
+                <tr>
+                  <td>${plan.client}</td>
+                  <td>${plan.hospitalSurgery}</td>
+                  <td>${plan.outpatient}</td>
+                  <td>${plan.maternity}</td>
+                  <td>${plan.dental}</td>
+                  <td>${plan.subtotal}</td>
+                </tr>
+              `
+              )
+              .join("")}
+          </tbody>
+        </table>
+        <h2>Total Premium: USD ${totalPremium}</h2>
+      `;
 
     await transporter.sendMail({
         from: '"Datalokey" <smtp@medishure.com>', // Ensure this matches the SMTP user
