@@ -30,7 +30,10 @@ transporter.verify((error, success) => {
     console.log('SMTP is working:', success);
   }
 });
-
+// Default route
+app.get('/', (req, res) => {
+  res.send('Quotation Tool Backend is running!');
+});
 // Email endpoint
 app.post('/send-email', async (req, res) => {
   const { contactInfo, plans, totalPremium } = req.body;
