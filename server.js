@@ -17,8 +17,8 @@ const transporter = nodemailer.createTransport({
     port: 587,
     secure: false,
     auth: {
-        user: 'smtp@medishure.com',
-        pass: 'dpqwrssjxlpgxyph',
+      user: process.env.SMTP_USER, // Secure credentials
+      pass: process.env.SMTP_PASS,
     },
 });
 
