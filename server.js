@@ -2,6 +2,7 @@ const express = require('express');
 const nodemailer = require('nodemailer');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+require('dotenv').config(); // Load environment variables
 
 const app = express();
 const PORT = 5000;
@@ -10,76 +11,76 @@ const PORT = 5000;
 app.use(cors());
 app.use(bodyParser.json());
 
-
-
+// Nodemailer transporter configuration
 const transporter = nodemailer.createTransport({
-    host: 'smtp.office365.com',
-    port: 587,
-    secure: false,
-    auth: {
-      user: process.env.SMTP_USER, // Secure credentials
-      pass: process.env.SMTP_PASS,
-    },
+  host: 'smtp.office365.com', // SMTP server
+  port: 587, // Port for STARTTLS
+  secure: false, // Use false for STARTTLS
+  auth: {
+    user: process.env.SMTP_USER, // SMTP user (from environment variable)
+    pass: process.env.SMTP_PASS, // SMTP password (from environment variable)
+  },
 });
 
+// Verify transporter configuration
 transporter.verify((error, success) => {
-    if (error) {
-        console.error('Error:', error);
-    } else {
-        console.log('SMTP is working:', success);
-    }
+  if (error) {
+    console.error('SMTP Verification Error:', error);
+  } else {
+    console.log('SMTP is working:', success);
+  }
 });
-
 
 // Email endpoint
-app.post("/send-email", async (req, res) => {
-    const { contactInfo, plans, totalPremium } = req.body;
-  
-    try {
-      const emailContent = `
-        <h1>Contact Information</h1>
-        <p><strong>Full Name:</strong> ${contactInfo.fullName}</p>
-        <p><strong>Contact Number:</strong> ${contactInfo.contactNumber}</p>
-        <p><strong>Email Address:</strong> ${contactInfo.emailAddress}</p>
-        <hr>
-        <h1>Plans and Premiums</h1>
-        <table border="1" cellpadding="10">
-          <thead>
-            <tr>
-              <th>Client</th>
-              <th>Hospital & Surgery</th>
-              <th>Outpatient</th>
-              <th>Maternity</th>
-              <th>Dental</th>
-              <th>Subtotal</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${plans
-              .map(
-                (plan) => `
-                <tr>
-                  <td>${plan.client}</td>
-                  <td>${plan.hospitalSurgery}</td>
-                  <td>${plan.outpatient}</td>
-                  <td>${plan.maternity}</td>
-                  <td>${plan.dental}</td>
-                  <td>${plan.subtotal}</td>
-                </tr>
-              `
-              )
-              .join("")}
-          </tbody>
-        </table>
-        <h2>Total Premium: USD ${totalPremium}</h2>
-      `;
+app.post('/send-email', async (req, res) => {
+  const { contactInfo, plans, totalPremium } = req.body;
 
+  try {
+    const emailContent = `
+      <h1>Contact Information</h1>
+      <p><strong>Full Name:</strong> ${contactInfo.fullName}</p>
+      <p><strong>Contact Number:</strong> ${contactInfo.contactNumber}</p>
+      <p><strong>Email Address:</strong> ${contactInfo.emailAddress}</p>
+      <hr>
+      <h1>Plans and Premiums</h1>
+      <table border="1" cellpadding="10">
+        <thead>
+          <tr>
+            <th>Client</th>
+            <th>Hospital & Surgery</th>
+            <th>Outpatient</th>
+            <th>Maternity</th>
+            <th>Dental</th>
+            <th>Subtotal</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${plans
+            .map(
+              (plan) => `
+              <tr>
+                <td>${plan.client}</td>
+                <td>${plan.hospitalSurgery}</td>
+                <td>${plan.outpatient}</td>
+                <td>${plan.maternity}</td>
+                <td>${plan.dental}</td>
+                <td>${plan.subtotal}</td>
+              </tr>
+            `
+            )
+            .join('')}
+        </tbody>
+      </table>
+      <h2>Total Premium: USD ${totalPremium}</h2>
+    `;
+
+    // Send the email
     await transporter.sendMail({
-        from: '"Datalokey" <smtp@medishure.com>', // Ensure this matches the SMTP user
-        to: 'calvin@medishure.com',              // Receiver's email
-        subject: 'Insurance Plans and Premiums', // Email subject
-        html: emailContent,                      // Dynamic email content
-      });
+      from: '"Datalokey" <smtp@medishure.com>', // Sender email
+      to: 'calvin@medishure.com', // Receiver email
+      subject: 'Insurance Plans and Premiums', // Email subject
+      html: emailContent, // Email content in HTML
+    });
 
     res.status(200).send({ message: 'Email sent successfully' });
   } catch (error) {
