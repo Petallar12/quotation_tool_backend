@@ -33,7 +33,8 @@ transporter.verify((error, success) => {
 
 // Function to format numbers with comma separators
 const formatNumberWithCommas = (number) => {
-  return number.toLocaleString(); // Formats number with commas
+  // Ensure the number is parsed as a float, then format it with commas
+  return parseFloat(number).toLocaleString(); // Formats number with commas
 };
 
 // Default route
