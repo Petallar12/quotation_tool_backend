@@ -30,10 +30,17 @@ transporter.verify((error, success) => {
     console.log('SMTP is working:', success);
   }
 });
+
+// Function to format numbers with comma separators
+const formatNumberWithCommas = (number) => {
+  return number.toLocaleString(); // Formats number with commas
+};
+
 // Default route
 app.get('/', (req, res) => {
   res.send('Quotation Tool Backend is running!');
 });
+
 // Email endpoint
 app.post('/send-email', async (req, res) => {
   const { contactInfo, plans, totalPremium } = req.body;
@@ -71,14 +78,14 @@ app.post('/send-email', async (req, res) => {
                 <td>${plan.outpatient}</td>
                 <td>${plan.maternity}</td>
                 <td>${plan.dental}</td>
-                <td>${plan.subtotal}</td>
+                <td>${formatNumberWithCommas(plan.subtotal)}</td>
               </tr>
             `
             )
             .join('')}
         </tbody>
       </table>
-      <h2>Total Premium: USD ${totalPremium}</h2>
+      <h2>Total Premium: USD ${formatNumberWithCommas(totalPremium)}</h2>
     `;
 
     // Send the email
