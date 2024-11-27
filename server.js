@@ -44,6 +44,9 @@ app.post('/send-email', async (req, res) => {
       <p><strong>Full Name:</strong> ${contactInfo.fullName}</p>
       <p><strong>Contact Number:</strong> ${contactInfo.contactNumber}</p>
       <p><strong>Email Address:</strong> ${contactInfo.emailAddress}</p>
+  
+      <p><strong>Country of Residence:</strong> ${contactInfo.country_residence}</p>
+      <p><strong>Nationality:</strong> ${contactInfo.nationality}</p>
       <hr>
       <h1>Plans and Premiums</h1>
       <table border="1" cellpadding="10">
