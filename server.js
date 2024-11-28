@@ -65,8 +65,8 @@ app.post('/send-email', async (req, res) => {
               (plan) => `
               <tr>
                 <td>${plan.client}</td>
-                <td>${plan.hospitalSurgery} ${plan.hospitalSurgery.premium}</td>
-                <td>${plan.outpatient}${plan.outpatient.premium}</td>
+                <td>${plan.hospitalSurgery} (${clients[index].plans.hs})</td>
+                <td>${plan.outpatient} (${clients[index].plans.op})</td>
                 <td>${plan.maternity}</td>
                 <td>${plan.dental}</td>
                 <td>${plan.subtotal}</td>
