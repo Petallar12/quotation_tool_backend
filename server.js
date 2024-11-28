@@ -36,16 +36,15 @@ app.get('/', (req, res) => {
 });
 // Email endpoint
 app.post('/send-email', async (req, res) => {
-  const { contactInfo, plans, totalPremium } = req.body;
+  const { contactInfo, plans, totalPremium , familyDiscount } = req.body;
 
   try {
     const emailContent = `
       <h1>Contact Information</h1>
-  <p><strong>Full Name:</strong> ${contactInfo.fullName}  <strong>Contact Number:</strong> ${contactInfo.contactNumber}</p>
-  <p><strong>Email Address:</strong> ${contactInfo.emailAddress}     <strong>Country of Residence:</strong> ${contactInfo.country_residence}</p>
-  <p><strong>Nationality:</strong> ${contactInfo.nationality}</p>
-  <p><strong>Family Discount:</strong> ${contactInfo.familyDiscount || 'N/A'}%</p>
-  <p><strong>Area of Coverage:</strong> ${contactInfo.area_of_coverage}</p>
+      <p><strong>Full Name:</strong> ${contactInfo.fullName}  <strong>Contact Number:</strong> ${contactInfo.contactNumber}</p>
+      <p><strong>Email Address:</strong> ${contactInfo.emailAddress}     <strong>Country of Residence:</strong> ${contactInfo.country_residence}</p>
+      <p><strong>Nationality:</strong> ${contactInfo.nationality}  <strong>Family Discount:</strong> ${contactInfo.length}</p>
+      <p><strong>Area of Coverage:</strong> ${contactInfo.area_of_coverage}</p>
 
       <hr>
       <h1>Plans and Premiums</h1>
@@ -77,6 +76,7 @@ app.post('/send-email', async (req, res) => {
             .join('')}
         </tbody>
       </table>
+      <h2>Family Discount: ${familyDiscount}%</h2>
       <h2>Total Premium: USD ${totalPremium}</h2>
     `;
 
