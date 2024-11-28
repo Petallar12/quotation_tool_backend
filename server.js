@@ -36,7 +36,7 @@ app.get('/', (req, res) => {
 });
 // Email endpoint
 app.post('/send-email', async (req, res) => {
-  const { contactInfo, plans, totalPremium , familyDiscount } = req.body;
+  const { contactInfo, plans, totalPremium } = req.body;
 
   try {
     const emailContent = `
@@ -65,8 +65,8 @@ app.post('/send-email', async (req, res) => {
               (plan) => `
               <tr>
                 <td>${plan.client}</td>
-                <td>${plan.hospitalSurgery}</td>
-                <td>${plan.outpatient}</td>
+                <td>${plan.hospitalSurgery} ${plan.hospitalSurgery.premium}</td>
+                <td>${plan.outpatient}${plan.outpatient.premium}</td>
                 <td>${plan.maternity}</td>
                 <td>${plan.dental}</td>
                 <td>${plan.subtotal}</td>
@@ -76,7 +76,6 @@ app.post('/send-email', async (req, res) => {
             .join('')}
         </tbody>
       </table>
-      <h2>Family Discount: ${familyDiscount}%</h2>
       <h2>Total Premium: USD ${totalPremium}</h2>
     `;
 
