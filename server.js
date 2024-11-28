@@ -41,10 +41,11 @@ app.post('/send-email', async (req, res) => {
   try {
     const emailContent = `
       <h1>Contact Information</h1>
-      <p><strong>Full Name:</strong> ${contactInfo.fullName} &nbsp;&nbsp;&nbsp;&nbsp; <strong>Contact Number:</strong> ${contactInfo.contactNumber}</p>
-      <p><strong>Email Address:</strong> ${contactInfo.emailAddress} &nbsp;&nbsp;&nbsp;&nbsp;    <strong>Country of Residence:</strong> ${contactInfo.country_residence}</p>
-      <p><strong>Nationality:</strong> ${contactInfo.nationality}>&nbsp;&nbsp;&nbsp;&nbsp; <strong>Family Discount:</strong> ${contactInfo.length}</p>
-      <p><strong>Area of Coverage:</strong> ${contactInfo.area_of_coverage}</p>
+  <p><strong>Full Name:</strong> ${contactInfo.fullName}  <strong>Contact Number:</strong> ${contactInfo.contactNumber}</p>
+  <p><strong>Email Address:</strong> ${contactInfo.emailAddress}     <strong>Country of Residence:</strong> ${contactInfo.country_residence}</p>
+  <p><strong>Nationality:</strong> ${contactInfo.nationality}</p>
+  <p><strong>Family Discount:</strong> ${contactInfo.familyDiscount || 'N/A'}%</p>
+  <p><strong>Area of Coverage:</strong> ${contactInfo.area_of_coverage}</p>
 
       <hr>
       <h1>Plans and Premiums</h1>
