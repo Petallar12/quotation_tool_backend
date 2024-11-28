@@ -41,10 +41,12 @@ app.post('/send-email', async (req, res) => {
   try {
     const emailContent = `
       <h1>Contact Information</h1>
-      <p><strong>Full Name:</strong> ${contactInfo.fullName}  <strong>Contact Number:</strong> ${contactInfo.contactNumber}</p>
-      <p><strong>Email Address:</strong> ${contactInfo.emailAddress}     <strong>Country of Residence:</strong> ${contactInfo.country_residence}</p>
-      <p><strong>Nationality:</strong> ${contactInfo.nationality}  <strong>Family Discount:</strong> ${contactInfo.length}</p>
-      <p><strong>Area of Coverage:</strong> ${contactInfo.area_of_coverage}</p>
+      <p><strong>Full Name:</strong> ${contactInfo.fullName}</p>
+   <strong>Contact Number:</strong> ${contactInfo.contactNumber}
+      <p><strong>Email Address:</strong> ${contactInfo.emailAddress}</p>
+      <p><strong>Country of Residence:</strong> ${contactInfo.country_residence}</p>
+      <p><strong>Nationality:</strong> ${contactInfo.nationality}</p>
+      <p><strong>Area of Coverage:</strong> ${contactInfo.area_of_coverage}</p> <!-- Added area of coverage -->
 
       <hr>
       <h1>Plans and Premiums</h1>
@@ -65,8 +67,8 @@ app.post('/send-email', async (req, res) => {
               (plan) => `
               <tr>
                 <td>${plan.client}</td>
-                <td>${plan.hospitalSurgery} (${clients[index].plans.hs})</td>
-                <td>${plan.outpatient} (${clients[index].plans.op})</td>
+                <td>${plan.hospitalSurgery}</td>
+                <td>${plan.outpatient}</td>
                 <td>${plan.maternity}</td>
                 <td>${plan.dental}</td>
                 <td>${plan.subtotal}</td>
