@@ -86,7 +86,7 @@ app.post('/send-email', async (req, res) => {
 
     // Send the email to the admin
     await transporter.sendMail({
-      from: '"Datalokey" <smtp@medishure.com>', // Sender email
+      from: '"Quotation Tool" <smtp@medishure.com>', // Sender email
       to: 'calvin@medishure.com', // Your email
       subject: 'Insurance Plans and Premiums', // Email subject
       html: emailContentForAdmin, // Email content in HTML
@@ -99,12 +99,12 @@ app.post('/send-email', async (req, res) => {
       <p>Thank you for submitting your application! We've received your details and will get back to you shortly.</p>
 
       <p>We will review your submission and contact you soon.</p>
-      <p>Best regards,<br>The Datalokey Team</p>
+      <p>Best regards,<br>The Quotation Team</p>
     `;
 
     // Send the thank-you email to the user
     await transporter.sendMail({
-      from: '"Datalokey" <smtp@medishure.com>', // Sender email
+      from: '"Quotation Tool" <smtp@medishure.com>', // Sender email
       to: contactInfo.emailAddress, // User's email
       subject: 'Thank you for your application', // Email subject
       html: emailContentForUser, // Email content in HTML
