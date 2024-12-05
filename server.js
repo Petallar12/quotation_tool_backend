@@ -41,8 +41,8 @@ app.post('/send-email', async (req, res) => {
   const { contactInfo, plans, totalPremium } = req.body;
 
   try {
-    // Email Content Construction
-    const emailContent = `
+    // Prepare the email content for the admin (your email)
+    const emailContentForAdmin = `
       <h1>Contact Information</h1>
       <p><strong>Full Name:</strong> ${contactInfo.fullName}</p>
       <p><strong>Contact Number:</strong> ${contactInfo.contactNumber}</p>
@@ -53,22 +53,14 @@ app.post('/send-email', async (req, res) => {
 
       <hr>
       <h1>Plans and Premiums</h1>
-      <table border="1" cellpadding="10" cellspacing="0" style="width: 100%; border-collapse: collapse;">
+      <table border="1" cellpadding="10">
         <thead>
           <tr>
             <th>Client</th>
-            <th>Hospital & Surgery Plan & Room</th>
-            <th>Hospital & Surgery Deductible</th>
-            <th>Hospital & Surgery Premium</th>
-            <th>Outpatient Plan & Room</th>
-            <th>Outpatient Deductible</th>
-            <th>Outpatient Premium</th>
-            <th>Maternity Plan & Room</th>
-            <th>Maternity Deductible</th>
-            <th>Maternity Premium</th>
-            <th>Dental Plan & Room</th>
-            <th>Dental Deductible</th>
-            <th>Dental Premium</th>
+            <th>Hospital & Surgery</th>
+            <th>Outpatient</th>
+            <th>Maternity</th>
+            <th>Dental</th>
             <th>Subtotal</th>
           </tr>
         </thead>
@@ -78,18 +70,10 @@ app.post('/send-email', async (req, res) => {
               (plan) => `
               <tr>
                 <td>${plan.client}</td>
-                <td>${plan.hospitalSurgery.plan}</td>
-                <td>${plan.hospitalSurgery.deductible}</td>
-                <td>${plan.hospitalSurgery.premium}</td>
-                <td>${plan.outpatient.plan}</td>
-                <td>${plan.outpatient.deductible}</td>
-                <td>${plan.outpatient.premium}</td>
-                <td>${plan.maternity.plan}</td>
-                <td>${plan.maternity.deductible}</td>
-                <td>${plan.maternity.premium}</td>
-                <td>${plan.dental.plan}</td>
-                <td>${plan.dental.deductible}</td>
-                <td>${plan.dental.premium}</td>
+                <td>${plan.hospitalSurgery}</td>
+                <td>${plan.outpatient}</td>
+                <td>${plan.maternity}</td>
+                <td>${plan.dental}</td>
                 <td>${plan.subtotal}</td>
               </tr>
             `
@@ -97,19 +81,45 @@ app.post('/send-email', async (req, res) => {
             .join('')}
         </tbody>
       </table>
-      
       <h2>Total Premium: USD ${totalPremium}</h2>
     `;
 
-    // Send the email
+    // Send the email to the admin
     await transporter.sendMail({
       from: '"Datalokey" <smtp@medishure.com>', // Sender email
-      to: 'calvin@medishure.com', // Receiver email
+      to: 'calvin@medishure.com', // Your email
       subject: 'Insurance Plans and Premiums', // Email subject
-      html: emailContent, // Email content in HTML
+      html: emailContentForAdmin, // Email content in HTML
     });
 
-    res.status(200).send({ message: 'Email sent successfully' });
+    // Prepare the thank-you email content for the user
+    const emailContentForUser = `
+      <h1>Thank you for your application!</h1>
+      <p>Dear ${contactInfo.fullName},</p>
+      <p>Thank you for submitting your application! We've received your details and will get back to you shortly.</p>
+      <p><strong>Summary of your application:</strong></p>
+      <ul>
+        <li><strong>Full Name:</strong> ${contactInfo.fullName}</li>
+        <li><strong>Email Address:</strong> ${contactInfo.emailAddress}</li>
+        <li><strong>Country of Residence:</strong> ${contactInfo.country_residence}</li>
+        <li><strong>Nationality:</strong> ${contactInfo.nationality}</li>
+        <li><strong>Area of Coverage:</strong> ${contactInfo.area_of_coverage}</li>
+      </ul>
+      <p>We will review your submission and contact you soon.</p>
+      <p>Best regards,<br>The Datalokey Team</p>
+    `;
+
+    // Send the thank-you email to the user
+    await transporter.sendMail({
+      from: '"Datalokey" <smtp@medishure.com>', // Sender email
+      to: contactInfo.emailAddress, // User's email
+      subject: 'Thank you for your application', // Email subject
+      html: emailContentForUser, // Email content in HTML
+    });
+
+    // Send a success response
+    res.status(200).send({ message: 'Emails sent successfully' });
+
   } catch (error) {
     console.error('Error sending email:', error);
     res.status(500).send({ message: 'Error sending email', error });
