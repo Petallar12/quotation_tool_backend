@@ -30,34 +30,45 @@ transporter.verify((error, success) => {
     console.log('SMTP is working:', success);
   }
 });
+
 // Default route
 app.get('/', (req, res) => {
   res.send('Quotation Tool Backend is running!');
 });
+
 // Email endpoint
 app.post('/send-email', async (req, res) => {
   const { contactInfo, plans, totalPremium } = req.body;
 
   try {
+    // Email Content Construction
     const emailContent = `
       <h1>Contact Information</h1>
       <p><strong>Full Name:</strong> ${contactInfo.fullName}</p>
-   <strong>Contact Number:</strong> ${contactInfo.contactNumber}
+      <p><strong>Contact Number:</strong> ${contactInfo.contactNumber}</p>
       <p><strong>Email Address:</strong> ${contactInfo.emailAddress}</p>
       <p><strong>Country of Residence:</strong> ${contactInfo.country_residence}</p>
       <p><strong>Nationality:</strong> ${contactInfo.nationality}</p>
-      <p><strong>Area of Coverage:</strong> ${contactInfo.area_of_coverage}</p> <!-- Added area of coverage -->
+      <p><strong>Area of Coverage:</strong> ${contactInfo.area_of_coverage}</p>
 
       <hr>
       <h1>Plans and Premiums</h1>
-      <table border="1" cellpadding="10">
+      <table border="1" cellpadding="10" cellspacing="0" style="width: 100%; border-collapse: collapse;">
         <thead>
           <tr>
             <th>Client</th>
-            <th>Hospital & Surgery</th>
-            <th>Outpatient</th>
-            <th>Maternity</th>
-            <th>Dental</th>
+            <th>Hospital & Surgery Plan & Room</th>
+            <th>Hospital & Surgery Deductible</th>
+            <th>Hospital & Surgery Premium</th>
+            <th>Outpatient Plan & Room</th>
+            <th>Outpatient Deductible</th>
+            <th>Outpatient Premium</th>
+            <th>Maternity Plan & Room</th>
+            <th>Maternity Deductible</th>
+            <th>Maternity Premium</th>
+            <th>Dental Plan & Room</th>
+            <th>Dental Deductible</th>
+            <th>Dental Premium</th>
             <th>Subtotal</th>
           </tr>
         </thead>
@@ -67,10 +78,18 @@ app.post('/send-email', async (req, res) => {
               (plan) => `
               <tr>
                 <td>${plan.client}</td>
-                <td>${plan.hospitalSurgery}</td>
-                <td>${plan.outpatient}</td>
-                <td>${plan.maternity}</td>
-                <td>${plan.dental}</td>
+                <td>${plan.hospitalSurgery.plan}</td>
+                <td>${plan.hospitalSurgery.deductible}</td>
+                <td>${plan.hospitalSurgery.premium}</td>
+                <td>${plan.outpatient.plan}</td>
+                <td>${plan.outpatient.deductible}</td>
+                <td>${plan.outpatient.premium}</td>
+                <td>${plan.maternity.plan}</td>
+                <td>${plan.maternity.deductible}</td>
+                <td>${plan.maternity.premium}</td>
+                <td>${plan.dental.plan}</td>
+                <td>${plan.dental.deductible}</td>
+                <td>${plan.dental.premium}</td>
                 <td>${plan.subtotal}</td>
               </tr>
             `
@@ -78,6 +97,7 @@ app.post('/send-email', async (req, res) => {
             .join('')}
         </tbody>
       </table>
+      
       <h2>Total Premium: USD ${totalPremium}</h2>
     `;
 
