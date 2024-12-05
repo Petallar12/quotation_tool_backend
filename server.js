@@ -97,14 +97,7 @@ app.post('/send-email', async (req, res) => {
       <h1>Thank you for your application!</h1>
       <p>Dear ${contactInfo.fullName},</p>
       <p>Thank you for submitting your application! We've received your details and will get back to you shortly.</p>
-      <p><strong>Summary of your application:</strong></p>
-      <ul>
-        <li><strong>Full Name:</strong> ${contactInfo.fullName}</li>
-        <li><strong>Email Address:</strong> ${contactInfo.emailAddress}</li>
-        <li><strong>Country of Residence:</strong> ${contactInfo.country_residence}</li>
-        <li><strong>Nationality:</strong> ${contactInfo.nationality}</li>
-        <li><strong>Area of Coverage:</strong> ${contactInfo.area_of_coverage}</li>
-      </ul>
+
       <p>We will review your submission and contact you soon.</p>
       <p>Best regards,<br>The Datalokey Team</p>
     `;
