@@ -53,9 +53,9 @@ app.post('/send-email', async (req, res) => {
 
       <hr>
       <h1>Plans and Premiums</h1>
-      <table border="1" cellpadding="10">
+      <table border="1" cellpadding="10" style="border-collapse: collapse; width: 100%;">
         <thead>
-          <tr>
+          <tr style="background-color: #f2f2f2;">
             <th>Client</th>
             <th>Hospital & Surgery</th>
             <th>Outpatient</th>
@@ -70,10 +70,24 @@ app.post('/send-email', async (req, res) => {
               (plan) => `
               <tr>
                 <td>${plan.client}</td>
-                <td>${plan.hospitalSurgery}</td>
-                <td>${plan.outpatient}</td>
-                <td>${plan.maternity}</td>
-                <td>${plan.dental}</td>
+                <td>
+                  Plan: ${plan.hospitalSurgeryPlan}<br>
+                  Deductible: ${plan.hospitalSurgeryDeductible}<br>
+                  Premium: ${plan.hospitalSurgery}
+                </td>
+                <td>
+                  Plan: ${plan.outpatientPlan}<br>
+                  Deductible: ${plan.outpatientDeductible}<br>
+                  Premium: ${plan.outpatient}
+                </td>
+                <td>
+                  Plan: ${plan.maternityPlan}<br>
+                  Premium: ${plan.maternity}
+                </td>
+                <td>
+                  Plan: ${plan.dentalPlan}<br>
+                  Premium: ${plan.dental}
+                </td>
                 <td>${plan.subtotal}</td>
               </tr>
             `
