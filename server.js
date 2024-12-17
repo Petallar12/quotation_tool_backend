@@ -71,12 +71,12 @@ app.post('/send-email', async (req, res) => {
               <tr>
                 <td>${plan.client}</td>
                 <td>
-                  Plan: ${plan.hospitalSurgeryPlan}<br>
+                  Plan: ${plan.hospitalSurgeryPlan}
                   Deductible: ${plan.hospitalSurgeryDeductible}<br>
                   ${plan.hospitalSurgery}
                 </td>
                 <td>
-                  Plan: ${plan.outpatientPlan}<br>
+                  Plan: ${plan.outpatientPlan}
                   Deductible: ${plan.outpatientDeductible}<br>
                   ${plan.outpatient}
                 </td>
@@ -108,13 +108,59 @@ app.post('/send-email', async (req, res) => {
 
     // Prepare the thank-you email content for the user
     const emailContentForUser = `
-      <h1>Thank you for your application!</h1>
-      <p>Dear ${contactInfo.fullName},</p>
-      <p>Thank you for submitting your application! We've received your details and will get back to you shortly.</p>
-
-      <p>We will review your submission and contact you soon.</p>
-      <p>Best regards,<br>The Quotation Team</p>
-    `;
+    <h1>Thank you for your application!</h1>
+    <p>Dear ${contactInfo.fullName},</p>
+    <p>Thank you for submitting your application! We've received your details and will get back to you shortly.</p>
+    
+    <hr>
+    <h1>Your Plans and Premiums</h1>
+    <table border="1" cellpadding="10" style="border-collapse: collapse; width: 100%;">
+      <thead>
+        <tr style="background-color: #f2f2f2;">
+          <th>Client</th>
+          <th>Hospital & Surgery</th>
+          <th>Outpatient</th>
+          <th>Maternity</th>
+          <th>Dental</th>
+          <th>Subtotal</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${plans
+          .map(
+            (plan) => `
+            <tr>
+              <td>${plan.client}</td>
+              <td>
+                Plan: ${plan.hospitalSurgeryPlan}
+                Deductible: ${plan.hospitalSurgeryDeductible}<br>
+                ${plan.hospitalSurgery}
+              </td>
+              <td>
+                Plan: ${plan.outpatientPlan}
+                Deductible: ${plan.outpatientDeductible}<br>
+                ${plan.outpatient}
+              </td>
+              <td>
+                Plan: ${plan.maternityPlan}<br>
+                ${plan.maternity}
+              </td>
+              <td>
+                Plan: ${plan.dentalPlan}<br>
+                ${plan.dental}
+              </td>
+              <td>${plan.subtotal}</td>
+            </tr>
+          `
+          )
+          .join('')}
+      </tbody>
+    </table>
+    <h2>Total Premium: USD ${totalPremium}</h2>
+  
+    <p>We will review your submission and contact you soon.</p>
+    <p>Best regards,<br>Sales Team</p>
+  `;
 
     // Send the thank-you email to the user
     await transporter.sendMail({
