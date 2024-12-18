@@ -102,7 +102,7 @@ app.post('/send-email', async (req, res) => {
     await transporter.sendMail({
       from: '"Quotation Tool" <no-reply@lukemedikal.co.id>', // Sender email
       to: 'webleads@medishure.com', // Your email
-      subject: 'Insurance Plans and Premiums', // Email subject
+      subject: 'Luke Medikal Web Lead (April Indonesia)', // Email subject
       html: emailContentForAdmin, // Email content in HTML
     });
 
