@@ -101,7 +101,7 @@ app.post('/send-email', async (req, res) => {
     // Send the email to the admin
     await transporter.sendMail({
       from: '"Quotation Tool" <no-reply@lukemedikal.co.id>', // Sender email
-      to: 'webleads@medishure.com', // Your email
+      to: 'webleads_test@medishure.com', // Your email
       subject: 'Luke Medikal Web Lead (April Indonesia)', // Email subject
       html: emailContentForAdmin, // Email content in HTML
     });
