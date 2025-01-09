@@ -87,29 +87,29 @@ app.post('/send-email', async (req, res) => {
                 <td>
                   Plan: ${plan.hospitalSurgeryPlan}
                   Deductible: ${plan.hospitalSurgeryDeductible}<br>
-                Premium: ${plan.hospitalSurgery ? `USD ${Number(plan.hospitalSurgery).toLocaleString()}` : 'N/A'}
+                  ${plan.hospitalSurgery}
                 </td>
                 <td>
                   Plan: ${plan.outpatientPlan}
                   Deductible: ${plan.outpatientDeductible}<br>
-                Premium: ${plan.outpatient ? `USD ${Number(plan.outpatient).toLocaleString()}` : 'N/A'}
+                  ${plan.outpatient}
                 </td>
                 <td>
                   Plan: ${plan.maternityPlan}<br>
-                Premium: ${plan.maternity ? `USD ${Number(plan.maternity).toLocaleString()}` : 'N/A'}
+                  ${plan.maternity}
                 </td>
                 <td>
                   Plan: ${plan.dentalPlan}<br>
-                Premium: ${plan.dental ? `USD ${Number(plan.dental).toLocaleString()}` : 'N/A'}
+                  ${plan.dental}
                 </td>
-                <td>${Number(plan.subtotal).toLocaleString()}<td>
+                <td>${plan.subtotal}</td>
               </tr>
             `
             )
             .join('')}
         </tbody>
       </table>
-      <h2>Total Premium: USD ${Number(totalPremium).toLocaleString()}</h2>
+      <h2>Total Premium: USD ${totalPremium}</h2>
             </body>
     </html>
     `;
@@ -159,10 +159,10 @@ app.post('/send-email', async (req, res) => {
           (plan) => `
           <tr>
             <td>${plan.client}</td>
-            <td>
-              Plan: ${plan.hospitalSurgeryPlan}
+            td>
+              Plan: ${plan.hospitalSurgeryPlan}<br>
               Deductible: ${plan.hospitalSurgeryDeductible}<br>
-              ${plan.hospitalSurgery}
+              ${'Premium: USD ' + (plan.hospitalSurgery || "N/A").toLocaleString()} // Formatting premium
             </td>
             <td>
               Plan: ${plan.outpatientPlan}
