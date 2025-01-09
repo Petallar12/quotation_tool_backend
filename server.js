@@ -38,15 +38,6 @@ app.get('/', (req, res) => {
   res.send('Quotation Tool Backend is running!');
 });
 
-// Helper function to format numbers as USD currency
-function formatUSD(value) {
-  return new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-    minimumFractionDigits: 2,
-  }).format(value);
-}
-
 // Email endpoint
 app.post('/send-email', async (req, res) => {
   const { contactInfo, plans, totalPremium } = req.body;
@@ -96,29 +87,29 @@ app.post('/send-email', async (req, res) => {
                 <td>
                   Plan: ${plan.hospitalSurgeryPlan}
                   Deductible: ${plan.hospitalSurgeryDeductible}<br>
-                  ${formatUSD(plan.hospitalSurgery)}
+                  ${Number(plan.hospitalSurgery).toLocaleString()}
                 </td>
                 <td>
                   Plan: ${plan.outpatientPlan}
                   Deductible: ${plan.outpatientDeductible}<br>
-                  ${formatUSD(plan.outpatient)}
+                  ${Number(plan.outpatient).toLocaleString()}
                 </td>
                 <td>
                   Plan: ${plan.maternityPlan}<br>
-                  ${formatUSD(plan.maternity)}
+                  ${plan.maternity === 'N/A' ? 'N/A' : `USD ${Number(plan.maternity).toLocaleString()}`}
                 </td>
                 <td>
                   Plan: ${plan.dentalPlan}<br>
-                  ${formatUSD(plan.dental)}
+                  ${Number(plan.dental).toLocaleString()}
                 </td>
-                <td>${formatUSD(plan.subtotal)}}</td>
+                <td>${Number(plan.subtotal).toLocaleString()}td>
               </tr>
             `
             )
             .join('')}
         </tbody>
       </table>
-      <h2>Total Premium: USD ${formatUSD(totalPremium)}</h2>
+      <h2>Total Premium: USD ${Number(totalPremium).toLocaleString()}</h2>
             </body>
     </html>
     `;
