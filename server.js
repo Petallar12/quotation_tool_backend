@@ -6,6 +6,8 @@ require('dotenv').config(); // Load environment variables
 
 const app = express();
 const PORT = 5000;
+import './inputform.css';
+
 
 // Middleware
 app.use(cors({
