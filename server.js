@@ -6,8 +6,6 @@ require('dotenv').config(); // Load environment variables
 
 const app = express();
 const PORT = 5000;
-import './inputform.css';
-
 
 // Middleware
 app.use(cors({
@@ -47,6 +45,18 @@ app.post('/send-email', async (req, res) => {
   try {
     // Prepare the email content for the admin (your email)
     const emailContentForAdmin = `
+   <html>
+      <head>
+        <style>
+          body { font-family: Arial, sans-serif; font-size:10px;}
+          h1 { color: #333; font-size: 13px; }
+          p { font-size: 16px; }
+          th { background-color: #f2f2f2; color: black; padding: 10px; border: 1px solid #ddd; }
+          td { padding: 10px; border: 1px solid #ddd; }
+          table { border-collapse: collapse; width: 100%; }
+        </style>
+      </head>
+      <body> 
       <h1>Contact Information</h1>
       <p><strong>Full Name:</strong> ${contactInfo.fullName}</p>
       <p><strong>Contact Number:</strong> ${contactInfo.contactNumber}</p>
@@ -100,6 +110,8 @@ app.post('/send-email', async (req, res) => {
         </tbody>
       </table>
       <h2>Total Premium: USD ${totalPremium}</h2>
+            </body>
+    </html>
     `;
 
     // Send the email to the admin
