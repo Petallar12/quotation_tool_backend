@@ -38,6 +38,15 @@ app.get('/', (req, res) => {
   res.send('Quotation Tool Backend is running!');
 });
 
+// Helper function to format numbers as USD currency
+function formatUSD(value) {
+  return new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    minimumFractionDigits: 2,
+  }).format(value);
+}
+
 // Email endpoint
 app.post('/send-email', async (req, res) => {
   const { contactInfo, plans, totalPremium } = req.body;
