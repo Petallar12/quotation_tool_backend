@@ -87,29 +87,29 @@ app.post('/send-email', async (req, res) => {
                 <td>
                   Plan: ${plan.hospitalSurgeryPlan}
                   Deductible: ${plan.hospitalSurgeryDeductible}<br>
-                  ${plan.hospitalSurgery}
+                  ${formatUSD(plan.hospitalSurgery)}
                 </td>
                 <td>
                   Plan: ${plan.outpatientPlan}
                   Deductible: ${plan.outpatientDeductible}<br>
-                  ${plan.outpatient}
+                  ${formatUSD(plan.outpatient)}
                 </td>
                 <td>
                   Plan: ${plan.maternityPlan}<br>
-                  ${plan.maternity}
+                  ${formatUSD(plan.maternity)}
                 </td>
                 <td>
                   Plan: ${plan.dentalPlan}<br>
-                  ${plan.dental}
+                  ${formatUSD(plan.dental)}
                 </td>
-                <td>${plan.subtotal}</td>
+                <td>${formatUSD(plan.subtotal)}}</td>
               </tr>
             `
             )
             .join('')}
         </tbody>
       </table>
-      <h2>Total Premium: USD ${totalPremium}</h2>
+      <h2>Total Premium: USD ${formatUSD(totalPremium)}</h2>
             </body>
     </html>
     `;
