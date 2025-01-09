@@ -160,9 +160,10 @@ app.post('/send-email', async (req, res) => {
           <tr>
             <td>${plan.client}</td>
             <td>
-              Plan: ${plan.hospitalSurgeryPlan}
-              Deductible: ${plan.hospitalSurgeryDeductible}<br>
-              ${plan.hospitalSurgery}
+                Plan: ${plan.hospitalSurgeryPlan}<br>
+  Deductible: ${plan.hospitalSurgeryDeductible}<br>
+  ${'Premium: USD ' + (plan.hospitalSurgery || "N/A").toLocaleString()} // Formatting premium
+
             </td>
             <td>
               Plan: ${plan.outpatientPlan}
