@@ -49,7 +49,8 @@ app.post('/send-email', async (req, res) => {
       <head>
         <style>
           body { font-family: Arial, sans-serif; font-size:14px;}
-          h1 { color: #333; font-size: 16px; }
+          h1 { color: #333; font-size: 18px; }
+          h2 { color: #333; font-size: 15px; }
           th { background-color: #f2f2f2; color: black; padding: 10px; border: 1px solid #ddd; }
           td { padding: 12px; border: 1px solid #ddd;}
           table { border-collapse: collapse; width: 100%; }
@@ -123,7 +124,19 @@ app.post('/send-email', async (req, res) => {
 
     // Prepare the thank-you email content for the user
    const emailContentForUser = `
-  <h1>Thank you for your application!</h1>
+     <html>
+      <head>
+        <style>
+          body { font-family: Arial, sans-serif; font-size:14px;}
+          h1 { color: #333; font-size: 18px; }
+          h2 { color: #333; font-size: 15px; }
+          th { background-color: #f2f2f2; color: black; padding: 10px; border: 1px solid #ddd; }
+          td { padding: 12px; border: 1px solid #ddd;}
+          table { border-collapse: collapse; width: 100%; }
+        </style>
+      </head>
+      <body>
+   <h1>Thank you for your application!</h1>
   <p>Dear ${contactInfo.fullName},</p>
   <p>Thank you for submitting your application! We've received your details and will get back to you shortly.</p>
   
@@ -172,6 +185,8 @@ app.post('/send-email', async (req, res) => {
     </tbody>
   </table>
   <h2>Total Premium: USD ${totalPremium}</h2>
+  </body>
+</html>
 `;
 
     // Send the thank-you email to the user
