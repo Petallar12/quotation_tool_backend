@@ -48,11 +48,10 @@ app.post('/send-email', async (req, res) => {
    <html>
       <head>
         <style>
-          body { font-family: Arial, sans-serif; font-size:10px;}
-          h1 { color: #333; font-size: 13px; }
-          p { font-size: 16px; }
+          body { font-family: Arial, sans-serif; font-size:14px;}
+          h1 { color: #333; font-size: 16px; }
           th { background-color: #f2f2f2; color: black; padding: 10px; border: 1px solid #ddd; }
-          td { padding: 10px; border: 1px solid #ddd; }
+          td { padding: 12px; border: 1px solid #ddd;}
           table { border-collapse: collapse; width: 100%; }
         </style>
       </head>
