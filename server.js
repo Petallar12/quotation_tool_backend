@@ -87,22 +87,22 @@ app.post('/send-email', async (req, res) => {
                 <td>
                   Plan: ${plan.hospitalSurgeryPlan}
                   Deductible: ${plan.hospitalSurgeryDeductible}<br>
-                  ${Number(plan.hospitalSurgery).toLocaleString()}
+                Premium: ${plan.hospitalSurgery ? `USD ${Number(plan.hospitalSurgery).toLocaleString()}` : 'N/A'}
                 </td>
                 <td>
                   Plan: ${plan.outpatientPlan}
                   Deductible: ${plan.outpatientDeductible}<br>
-                  ${Number(plan.outpatient).toLocaleString()}
+                Premium: ${plan.outpatient ? `USD ${Number(plan.outpatient).toLocaleString()}` : 'N/A'}
                 </td>
                 <td>
                   Plan: ${plan.maternityPlan}<br>
-                  ${plan.maternity === 'N/A' ? 'N/A' : `USD ${Number(plan.maternity).toLocaleString()}`}
+                Premium: ${plan.maternity ? `USD ${Number(plan.maternity).toLocaleString()}` : 'N/A'}
                 </td>
                 <td>
                   Plan: ${plan.dentalPlan}<br>
-                  ${Number(plan.dental).toLocaleString()}
+                Premium: ${plan.dental ? `USD ${Number(plan.dental).toLocaleString()}` : 'N/A'}
                 </td>
-                <td>${Number(plan.subtotal).toLocaleString()}td>
+                <td>${Number(plan.subtotal).toLocaleString()}<td>
               </tr>
             `
             )
