@@ -23,23 +23,6 @@ const transporter = nodemailer.createTransport({
     pass: process.env.SMTP_PASS, // SMTP password (from environment variable)
   },
 });
-const formatCurrency = (amount) => {
-  // Attempt to convert the input to a floating point number
-  const number = parseFloat(amount);
-  // Check if the result is a finite number
-  if (Number.isFinite(number)) {
-    return number.toLocaleString('en-US', {
-      style: 'currency',
-      currency: 'USD',
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2
-    });
-  } else {
-    // Return "N/A" if the input isn't a valid, finite number
-    return "N/A";
-  }
-};
-
 
 
 // Verify transporter configuration
@@ -177,34 +160,36 @@ app.post('/send-email', async (req, res) => {
       ${plans
         .map(
           (plan) => `
-  <tr>
-    <td>${plan.client}</td>
-    <td>
-      Plan: ${plan.hospitalSurgeryPlan}<br>
-      Deductible: ${plan.hospitalSurgeryDeductible}<br>
-      Premium: ${formatCurrency(plan.hospitalSurgery)}
-    </td>
-    <td>
-      Plan: ${plan.outpatientPlan}<br>
-      Deductible: ${plan.outpatientDeductible}<br>
-      Premium: ${formatCurrency(plan.outpatient)}
-    </td>
-    <td>
-      Plan: ${plan.maternityPlan}<br>
-      Premium: ${formatCurrency(plan.maternity)}
-    </td>
-    <td>
-      Plan: ${plan.dentalPlan}<br>
-      Premium: ${formatCurrency(plan.dental)}
-    </td>
-    <td>${formatCurrency(plan.subtotal)}</td>
-  </tr>
+ <tr>
+            <td>${plan.client}</td>
+            <td>
+              Plan: ${plan.hospitalSurgeryPlan}<br>
+              Deductible: ${plan.hospitalSurgeryDeductible}<br>
+              Premium: USD ${plan.hospitalSurgery.replace(/(\d+)/, (num) => parseFloat(num).toLocaleString('en-US'))}
+            </td>
+            <td>
+              Plan: ${plan.outpatientPlan}<br>
+              Deductible: ${plan.outpatientDeductible}<br>
+              Premium: USD ${plan.outpatient.replace(/(\d+)/, (num) => parseFloat(num).toLocaleString('en-US'))}
+            </td>
+            <td>
+              Plan: ${plan.maternityPlan}<br>
+              Premium: USD ${plan.maternity.replace(/(\d+)/, (num) => parseFloat(num).toLocaleString('en-US'))}
+            </td>
+            <td>
+              Plan: ${plan.dentalPlan}<br>
+              Premium: USD ${plan.dental.replace(/(\d+)/, (num) => parseFloat(num).toLocaleString('en-US'))}
+            </td>
+            <td>
+              USD ${plan.subtotal.replace(/(\d+)/, (num) => parseFloat(num).toLocaleString('en-US'))}
+            </td>
+          </tr>
         `
         )
         .join('')}
     </tbody>
   </table>
-  <h2>Total Premium: USD ${totalPremium}</h2>
+    <h2>Total Premium: USD ${totalPremium.replace(/(\d+)/, (num) => parseFloat(num).toLocaleString('en-US'))}</h2>
   </body>
 </html>
 `;
