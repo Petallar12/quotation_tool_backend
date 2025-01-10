@@ -23,6 +23,19 @@ const transporter = nodemailer.createTransport({
     pass: process.env.SMTP_PASS, // SMTP password (from environment variable)
   },
 });
+const formatCurrency = (amount) => {
+  // Check if the amount is a number and is finite, which means it is neither infinite nor NaN
+  if (typeof amount === "number" && isFinite(amount)) {
+    return Number(amount).toLocaleString('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    });
+  } else {
+    return "N/A";  // Return "N/A" if the input is not a valid number
+  }
+};
 
 // Verify transporter configuration
 transporter.verify((error, success) => {
@@ -161,11 +174,11 @@ app.post('/send-email', async (req, res) => {
           (plan) => `
           <tr>
             <td>${plan.client}</td>
-            <td>
-              Plan: ${plan.hospitalSurgeryPlan}
-              Deductible: ${plan.hospitalSurgeryDeductible}<br>
-              ${plan.hospitalSurgery}
-            </td>
+                <td>
+      Plan: ${plan.hospitalSurgeryPlan}<br>
+      Deductible: ${plan.hospitalSurgeryDeductible}<br>
+      Premium: ${formatCurrency(plan.hospitalSurgery)}
+    </td>
             <td>
               Plan: ${plan.outpatientPlan}
               Deductible: ${plan.outpatientDeductible}<br>
