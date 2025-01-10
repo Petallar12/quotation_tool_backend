@@ -174,10 +174,10 @@ app.post('/send-email', async (req, res) => {
             </td>
             <td>
               Plan: ${plan.dentalPlan}<br>
-              Premium: USD ${plan.dental.replace(/(\d+)/, (num) => parseFloat(num).toLocaleString('en-US'))}
+              ${plan.dental.replace(/(\d+)/, (num) => parseFloat(num).toLocaleString('en-US'))}
             </td>
             <td>
-              USD ${plan.subtotal.replace(/(\d+)/, (num) => parseFloat(num).toLocaleString('en-US'))}
+              ${plan.subtotal.replace(/(\d+)/, (num) => parseFloat(num).toLocaleString('en-US'))}
             </td>
           </tr>
         `)
