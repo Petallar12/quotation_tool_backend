@@ -3,7 +3,6 @@ const nodemailer = require('nodemailer');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 require('dotenv').config(); // Load environment variables
-
 const app = express();
 const PORT = 5000;
 
@@ -24,7 +23,6 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-
 // Verify transporter configuration
 transporter.verify((error, success) => {
   if (error) {
@@ -33,7 +31,7 @@ transporter.verify((error, success) => {
     console.log('SMTP is working:', success);
   }
 });
-
+ 
 // Default route
 app.get('/', (req, res) => {
   res.send('Quotation Tool Backend is running!');
@@ -65,7 +63,6 @@ app.post('/send-email', async (req, res) => {
       <p><strong>Country of Residence:</strong> ${contactInfo.country_residence}</p>
       <p><strong>Nationality:</strong> ${contactInfo.nationality}</p>
       <p><strong>Area of Coverage:</strong> ${contactInfo.area_of_coverage}</p>
-
       <hr>
       <h1>Plans and Premiums</h1>
       <table border="1" cellpadding="10" style="border-collapse: collapse; width: 100%;">
@@ -83,36 +80,35 @@ app.post('/send-email', async (req, res) => {
           ${plans
             .map(
               (plan) => `
-   <tr>
-    <td>${plan.client}</td>
-    <td>
-      Plan: ${plan.hospitalSurgeryPlan}<br>
-      Deductible: ${plan.hospitalSurgeryDeductible}<br>
-      Premium: USD ${plan.hospitalSurgery.replace(/(\d+)/, (num) => parseFloat(num).toLocaleString('en-US'))}
-    </td>
-    <td>
-      Plan: ${plan.outpatientPlan}<br>
-      Deductible: ${plan.outpatientDeductible}<br>
-      Premium: USD ${plan.outpatient.replace(/(\d+)/, (num) => parseFloat(num).toLocaleString('en-US'))}
-    </td>
-    <td>
-      Plan: ${plan.maternityPlan}<br>
-      Premium: USD ${plan.maternity.replace(/(\d+)/, (num) => parseFloat(num).toLocaleString('en-US'))}
-    </td>
-    <td>
-      Plan: ${plan.dentalPlan}<br>
-      Premium: USD ${plan.dental.replace(/(\d+)/, (num) => parseFloat(num).toLocaleString('en-US'))}
-    </td>
-    <td>
-      USD ${plan.subtotal.replace(/(\d+)/, (num) => parseFloat(num).toLocaleString('en-US'))}
-    </td>
-  </tr>
-            `
-            )
+            <tr>
+              <td>${plan.client}</td>
+              <td>
+                Plan: ${plan.hospitalSurgeryPlan}<br>
+                Deductible: ${plan.hospitalSurgeryDeductible}<br>
+                ${plan.hospitalSurgery.replace(/(\d+)/, (num) => parseFloat(num).toLocaleString('en-US'))}
+              </td>
+              <td>
+                Plan: ${plan.outpatientPlan}<br>
+                Deductible: ${plan.outpatientDeductible}<br>
+                ${plan.outpatient.replace(/(\d+)/, (num) => parseFloat(num).toLocaleString('en-US'))}
+              </td>
+              <td>
+                Plan: ${plan.maternityPlan}<br>
+                ${plan.maternity.replace(/(\d+)/, (num) => parseFloat(num).toLocaleString('en-US'))}
+              </td>
+              <td>
+                Plan: ${plan.dentalPlan}<br>
+                ${plan.dental.replace(/(\d+)/, (num) => parseFloat(num).toLocaleString('en-US'))}
+              </td>
+              <td>
+                 ${plan.subtotal.replace(/(\d+)/, (num) => parseFloat(num).toLocaleString('en-US'))}
+              </td>
+            </tr>
+            `)
             .join('')}
         </tbody>
       </table>
-<h2>Total Premium: USD ${totalPremium.replace(/(\d+)/, (num) => parseFloat(num).toLocaleString('en-US'))}</h2>
+    <h2>Total Premium: $${totalPremium.replace(/(\d+)/, (num) => parseFloat(num).toLocaleString('en-US'))}</h2>
             </body>
     </html>
     `;
@@ -160,21 +156,21 @@ app.post('/send-email', async (req, res) => {
       ${plans
         .map(
           (plan) => `
- <tr>
+          <tr>
             <td>${plan.client}</td>
             <td>
               Plan: ${plan.hospitalSurgeryPlan}<br>
               Deductible: ${plan.hospitalSurgeryDeductible}<br>
-              Premium: USD ${plan.hospitalSurgery.replace(/(\d+)/, (num) => parseFloat(num).toLocaleString('en-US'))}
+              ${plan.hospitalSurgery.replace(/(\d+)/, (num) => parseFloat(num).toLocaleString('en-US'))}
             </td>
             <td>
               Plan: ${plan.outpatientPlan}<br>
               Deductible: ${plan.outpatientDeductible}<br>
-              Premium: USD ${plan.outpatient.replace(/(\d+)/, (num) => parseFloat(num).toLocaleString('en-US'))}
+              ${plan.outpatient.replace(/(\d+)/, (num) => parseFloat(num).toLocaleString('en-US'))}
             </td>
             <td>
               Plan: ${plan.maternityPlan}<br>
-              Premium: USD ${plan.maternity.replace(/(\d+)/, (num) => parseFloat(num).toLocaleString('en-US'))}
+              ${plan.maternity.replace(/(\d+)/, (num) => parseFloat(num).toLocaleString('en-US'))}
             </td>
             <td>
               Plan: ${plan.dentalPlan}<br>
@@ -184,16 +180,14 @@ app.post('/send-email', async (req, res) => {
               USD ${plan.subtotal.replace(/(\d+)/, (num) => parseFloat(num).toLocaleString('en-US'))}
             </td>
           </tr>
-        `
-        )
+        `)
         .join('')}
     </tbody>
   </table>
-    <h2>Total Premium: USD ${totalPremium.replace(/(\d+)/, (num) => parseFloat(num).toLocaleString('en-US'))}</h2>
+    <h2>Total Premium: $${totalPremium.replace(/(\d+)/, (num) => parseFloat(num).toLocaleString('en-US'))}</h2>
   </body>
 </html>
 `;
-
     // Send the thank-you email to the user
     await transporter.sendMail({
       from: '"Quotation Tool" <no-reply@lukemedikal.co.id>', // Sender email
