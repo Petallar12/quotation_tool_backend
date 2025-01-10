@@ -24,8 +24,10 @@ const transporter = nodemailer.createTransport({
   },
 });
 const formatCurrency = (amount) => {
+  // Attempt to convert the input to a floating point number
   const number = parseFloat(amount);
-  if (!isNaN(number)) {  // Check if the parsed number is not NaN
+  // Check if the result is a finite number
+  if (Number.isFinite(number)) {
     return number.toLocaleString('en-US', {
       style: 'currency',
       currency: 'USD',
@@ -33,9 +35,11 @@ const formatCurrency = (amount) => {
       maximumFractionDigits: 2
     });
   } else {
-    return "N/A";  // Return "N/A" if the input is not a valid number
+    // Return "N/A" if the input isn't a valid, finite number
+    return "N/A";
   }
 };
+
 
 
 // Verify transporter configuration
