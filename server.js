@@ -24,9 +24,9 @@ const transporter = nodemailer.createTransport({
   },
 });
 const formatCurrency = (amount) => {
-  // Check if the amount is a number and is finite, which means it is neither infinite nor NaN
-  if (typeof amount === "number" && isFinite(amount)) {
-    return Number(amount).toLocaleString('en-US', {
+  const number = parseFloat(amount);
+  if (!isNaN(number)) {  // Check if the parsed number is not NaN
+    return number.toLocaleString('en-US', {
       style: 'currency',
       currency: 'USD',
       minimumFractionDigits: 2,
@@ -36,6 +36,7 @@ const formatCurrency = (amount) => {
     return "N/A";  // Return "N/A" if the input is not a valid number
   }
 };
+
 
 // Verify transporter configuration
 transporter.verify((error, success) => {
@@ -172,28 +173,28 @@ app.post('/send-email', async (req, res) => {
       ${plans
         .map(
           (plan) => `
-          <tr>
-            <td>${plan.client}</td>
-                <td>
+  <tr>
+    <td>${plan.client}</td>
+    <td>
       Plan: ${plan.hospitalSurgeryPlan}<br>
       Deductible: ${plan.hospitalSurgeryDeductible}<br>
       Premium: ${formatCurrency(plan.hospitalSurgery)}
     </td>
-            <td>
-              Plan: ${plan.outpatientPlan}
-              Deductible: ${plan.outpatientDeductible}<br>
-              ${plan.outpatient}
-            </td>
-            <td>
-              Plan: ${plan.maternityPlan}<br>
-              ${plan.maternity}
-            </td>
-            <td>
-              Plan: ${plan.dentalPlan}<br>
-              ${plan.dental}
-            </td>
-            <td>${plan.subtotal}</td>
-          </tr>
+    <td>
+      Plan: ${plan.outpatientPlan}<br>
+      Deductible: ${plan.outpatientDeductible}<br>
+      Premium: ${formatCurrency(plan.outpatient)}
+    </td>
+    <td>
+      Plan: ${plan.maternityPlan}<br>
+      Premium: ${formatCurrency(plan.maternity)}
+    </td>
+    <td>
+      Plan: ${plan.dentalPlan}<br>
+      Premium: ${formatCurrency(plan.dental)}
+    </td>
+    <td>${formatCurrency(plan.subtotal)}</td>
+  </tr>
         `
         )
         .join('')}
