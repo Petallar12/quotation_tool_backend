@@ -6,14 +6,6 @@ require('dotenv').config(); // Load environment variables
 
 const app = express();
 const PORT = 5000;
-const formatCurrency = (amount) => {
-  return Number(amount).toLocaleString('en-US', {
-    style: 'currency',
-    currency: 'USD',
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2
-  });
-};
 
 // Middleware
 app.use(cors({
@@ -167,34 +159,34 @@ app.post('/send-email', async (req, res) => {
       ${plans
         .map(
           (plan) => `
-<tr>
+          <tr>
             <td>${plan.client}</td>
             <td>
-              Plan: ${plan.hospitalSurgeryPlan}<br>
+              Plan: ${plan.hospitalSurgeryPlan}
               Deductible: ${plan.hospitalSurgeryDeductible}<br>
-              Premium: ${formatCurrency(plan.hospitalSurgery)}
+              ${plan.hospitalSurgery}
             </td>
             <td>
-              Plan: ${plan.outpatientPlan}<br>
+              Plan: ${plan.outpatientPlan}
               Deductible: ${plan.outpatientDeductible}<br>
-              Premium: ${formatCurrency(plan.outpatient)}
+              ${plan.outpatient}
             </td>
             <td>
               Plan: ${plan.maternityPlan}<br>
-              Premium: ${formatCurrency(plan.maternity)}
+              ${plan.maternity}
             </td>
             <td>
               Plan: ${plan.dentalPlan}<br>
-              Premium: ${formatCurrency(plan.dental)}
+              ${plan.dental}
             </td>
-            <td>${formatCurrency(plan.subtotal)}</td>
+            <td>${plan.subtotal}</td>
           </tr>
         `
         )
         .join('')}
     </tbody>
   </table>
-    <h2>Total Premium: ${formatCurrency(totalPremium)}</h2>
+  <h2>Total Premium: USD ${totalPremium}</h2>
   </body>
 </html>
 `;
