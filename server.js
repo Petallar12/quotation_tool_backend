@@ -82,34 +82,36 @@ app.post('/send-email', async (req, res) => {
           ${plans
             .map(
               (plan) => `
-              <tr>
-                <td>${plan.client}</td>
-                <td>
-                  Plan: ${plan.hospitalSurgeryPlan}
-                  Deductible: ${plan.hospitalSurgeryDeductible}<br>
-                  ${plan.hospitalSurgery}
-                </td>
-                <td>
-                  Plan: ${plan.outpatientPlan}
-                  Deductible: ${plan.outpatientDeductible}<br>
-                  ${plan.outpatient}
-                </td>
-                <td>
-                  Plan: ${plan.maternityPlan}<br>
-                  ${plan.maternity}
-                </td>
-                <td>
-                  Plan: ${plan.dentalPlan}<br>
-                  ${plan.dental}
-                </td>
-                <td>${plan.subtotal}</td>
-              </tr>
+   <tr>
+    <td>${plan.client}</td>
+    <td>
+      Plan: ${plan.hospitalSurgeryPlan}<br>
+      Deductible: ${plan.hospitalSurgeryDeductible}<br>
+      Premium: USD ${plan.hospitalSurgery.replace(/(\d+)/, (num) => parseFloat(num).toLocaleString('en-US'))}
+    </td>
+    <td>
+      Plan: ${plan.outpatientPlan}<br>
+      Deductible: ${plan.outpatientDeductible}<br>
+      Premium: USD ${plan.outpatient.replace(/(\d+)/, (num) => parseFloat(num).toLocaleString('en-US'))}
+    </td>
+    <td>
+      Plan: ${plan.maternityPlan}<br>
+      Premium: USD ${plan.maternity.replace(/(\d+)/, (num) => parseFloat(num).toLocaleString('en-US'))}
+    </td>
+    <td>
+      Plan: ${plan.dentalPlan}<br>
+      Premium: USD ${plan.dental.replace(/(\d+)/, (num) => parseFloat(num).toLocaleString('en-US'))}
+    </td>
+    <td>
+      USD ${plan.subtotal.replace(/(\d+)/, (num) => parseFloat(num).toLocaleString('en-US'))}
+    </td>
+  </tr>
             `
             )
             .join('')}
         </tbody>
       </table>
-      <h2>Total Premium: USD ${totalPremium}</h2>
+<h2>Total Premium: USD ${totalPremium.replace(/(\d+)/, (num) => parseFloat(num).toLocaleString('en-US'))}</h2>
             </body>
     </html>
     `;
@@ -160,10 +162,9 @@ app.post('/send-email', async (req, res) => {
           <tr>
             <td>${plan.client}</td>
             <td>
-                Plan: ${plan.hospitalSurgeryPlan}<br>
-  Deductible: ${plan.hospitalSurgeryDeductible}<br>
-  ${'Premium: USD ' + (plan.hospitalSurgery || "N/A").toLocaleString()} // Formatting premium
-
+              Plan: ${plan.hospitalSurgeryPlan}
+              Deductible: ${plan.hospitalSurgeryDeductible}<br>
+              ${plan.hospitalSurgery}
             </td>
             <td>
               Plan: ${plan.outpatientPlan}
