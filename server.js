@@ -159,27 +159,27 @@ app.post('/send-email', async (req, res) => {
       ${plans
         .map(
           (plan) => `
-          <tr>
+<tr>
             <td>${plan.client}</td>
             <td>
-              Plan: ${plan.hospitalSurgeryPlan}
+              Plan: ${plan.hospitalSurgeryPlan}<br>
               Deductible: ${plan.hospitalSurgeryDeductible}<br>
-              ${plan.hospitalSurgery}
+              Premium: ${formatCurrency(plan.hospitalSurgery)}
             </td>
             <td>
-              Plan: ${plan.outpatientPlan}
+              Plan: ${plan.outpatientPlan}<br>
               Deductible: ${plan.outpatientDeductible}<br>
-              ${plan.outpatient}
+              Premium: ${formatCurrency(plan.outpatient)}
             </td>
             <td>
               Plan: ${plan.maternityPlan}<br>
-              ${plan.maternity}
+              Premium: ${formatCurrency(plan.maternity)}
             </td>
             <td>
               Plan: ${plan.dentalPlan}<br>
-              ${plan.dental}
+              Premium: ${formatCurrency(plan.dental)}
             </td>
-            <td>${plan.subtotal}</td>
+            <td>${formatCurrency(plan.subtotal)}</td>
           </tr>
         `
         )
