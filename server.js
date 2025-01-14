@@ -108,7 +108,8 @@ app.post('/send-email', async (req, res) => {
             .join('')}
         </tbody>
       </table>
-    <h2>Total Premium: $${totalPremium.replace(/(\d+)/, (num) => parseFloat(num).toLocaleString('en-US'))}</h2>
+    <h2>Total Premium: $${totalPremium.replace(/(\d+)/, (num) => parseFloat(num).toLocaleString('en-US'))}</h2></br>
+    <p>www.lukemedikal.co.id </p>
             </body>
     </html>
     `;
@@ -185,6 +186,7 @@ app.post('/send-email', async (req, res) => {
     </tbody>
   </table>
     <h2>Total Premium: $${totalPremium.replace(/(\d+)/, (num) => parseFloat(num).toLocaleString('en-US'))}</h2>
+    </br><p>www.lukemedikal.co.id </p>
   </body>
 </html>
 `;
